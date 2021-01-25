@@ -7,7 +7,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Snapshot
 
-![snapshot]()
+![snapshot](https://github.com/prabhatdutt95/tache-task-manager/blob/master/snapshot.JPG?raw=true)
 
 ## References
 For styling refer [Link](https://www.creative-tim.com/)
