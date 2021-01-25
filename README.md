@@ -5,8 +5,6 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 [Deployed Demo](http://tache.surge.sh/)
 
-Note: Due to CORS issues the above URL Does not contain the recent data.
-
 ## Snapshot
 
 ![snapshot]()
