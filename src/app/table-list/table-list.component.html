@@ -1,0 +1,56 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title ">Tasks</h4>
+                      <p class="card-category"> Summary of All tasks</p>
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                  <th>
+                                      ID
+                                  </th>
+                                  <th>
+                                      Message
+                                  </th>
+                                  <th>
+                                      Assigned To
+                                  </th>
+                                  <th>
+                                      Due Date
+                                  </th>
+                                  <th>
+                                      Priority
+                                  </th>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let task of allTasks">
+                                      <td>
+                                          {{task.taskId}}
+                                      </td>
+                                      <td>
+                                          {{task.message}}
+                                      </td>
+                                      <td>
+                                          {{task.assigned_to}}
+                                      </td>
+                                      <td>
+                                          {{task.due_date | date}}
+                                      </td>
+                                      <td>
+                                          <span class="text-primary">{{task.priority}}</span>
+                                      </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

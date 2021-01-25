@@ -1,0 +1,216 @@
+<div class="main-content pt-0">
+    <div class="container-fluid" *ngIf="tasksLoaded; else placeholder">
+        <div class="row text-right">
+            <div class="col-12 col-md-6 col-lg-4 offset-md-6 offset-lg-8">
+                <div class="input-group no-border">
+                    <input type="text" [(ngModel)]="filteredTask" name="search" class="form-control" placeholder="Search...">
+                    <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+                        <i class="material-icons">search</i>
+                        <div class="ripple-container"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-chart  bg-danger-light" cdkDropList #highPriorityTskTemp="cdkDropList" [cdkDropListData]="highPriorityTasks"
+                [cdkDropListConnectedTo]="[lowPriorityTskTemp, medPriorityTskTemp]" 
+                (cdkDropListDropped)="onDrop($event)">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title d-inline">High Priority</h4>
+                        <div class="float-right">
+                            <button class="btn btn-link p-0 text-light" 
+                            data-toggle="modal" data-target="#myModal"
+                            (click)="editTask.priority = 1">
+                                <i class="fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body category-card">
+                        <ng-container *ngFor="let highPriorityTsk of highPriorityTasks | filter: filteredTask; trackBy:trackByChange">
+                            <div class="card my-1" [id]="highPriorityTsk.id"  cdkDrag>
+                                <div class="card-header font-weight-bolder text-primary pb-0">
+                                    <div class="d-inline">{{highPriorityTsk.taskId}}</div>
+                                    <div class="float-right">
+                                        <button class="btn btn-link p-0 text-primary">
+                                            <i class="fa fa-edit" data-toggle="modal" data-target="#myModal" (click)="editTask = highPriorityTsk"></i>
+                                        </button>
+                                        <button class="btn btn-link p-0 text-primary">
+                                            <i class="fa fa-times ml-2" (click)="delete(highPriorityTsk.id)"></i>
+                                        </button>
+                                        
+                                    </div>
+                                </div>
+                                <div class="card-body py-1">
+                                    <h5 class="font-weight-bold mb-1">{{highPriorityTsk.message}}</h5>
+                                    <div class="font-weight-bold">
+                                        <div class="d-inline">{{highPriorityTsk.assigned_to}}</div>
+                                        <div class="float-right text-success">
+                                            {{highPriorityTsk.due_date | date}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> {{highPriorityTasks.length}} Tasks
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-chart bg-warning-light" cdkDropList #medPriorityTskTemp="cdkDropList" [cdkDropListData]="mediumPriorityTasks"
+                [cdkDropListConnectedTo]="[lowPriorityTskTemp, highPriorityTskTemp]" 
+                (cdkDropListDropped)="onDrop($event)">
+                    <div class="card-header card-header-warning">
+                        <h4 class="card-title d-inline">Medium Priority</h4>
+                        <div class="float-right">
+                            <button class="btn btn-link p-0 text-light" data-toggle="modal" data-target="#myModal"
+                            (click)="editTask.priority = 2">
+                                <i class="fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body category-card">
+                        <ng-container *ngFor="let medPriorityTsk of mediumPriorityTasks | filter: filteredTask; trackBy:trackByChange">
+                            <div class="card my-1" [id]="medPriorityTsk.id"  cdkDrag>
+                                <div class="card-header font-weight-bolder text-primary pb-0">
+                                    <div class="d-inline">{{medPriorityTsk.taskId}}</div>
+                                    <div class="float-right">
+                                        <button class="btn btn-link p-0 text-primary">
+                                            <i class="fa fa-edit" data-toggle="modal" data-target="#myModal" (click)="editTask = medPriorityTsk"></i>
+                                        </button>
+                                        <button class="btn btn-link p-0 text-primary">
+                                            <i class="fa fa-times ml-2" (click)="delete(medPriorityTsk.id)"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body py-1">
+                                    <h5 class="font-weight-bold mb-1">{{medPriorityTsk.message}}</h5>
+                                    <div class="font-weight-bold">
+                                        <div class="d-inline">{{medPriorityTsk.assigned_to}}</div>
+                                        <div class="float-right text-success">
+                                            {{medPriorityTsk.due_date | date}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> {{mediumPriorityTasks.length}} Tasks
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-chart bg-success-light" cdkDropList #lowPriorityTskTemp="cdkDropList" [cdkDropListData]="lowPriorityTasks"
+                [cdkDropListConnectedTo]="[medPriorityTskTemp, highPriorityTskTemp]" 
+                (cdkDropListDropped)="onDrop($event)">
+                    <div class="card-header card-header-success">
+                        <h4 class="card-title d-inline">Low Priority</h4>
+                        <div class="float-right">
+                            <button class="btn btn-link p-0 text-light" data-toggle="modal" data-target="#myModal"
+                            (click)="editTask.priority = 3">
+                                <i class="fa fa-plus-circle"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body category-card">
+                        <ng-container *ngFor="let lowPriorityTsk of lowPriorityTasks | filter: filteredTask; trackBy:trackByChange">
+                            <div class="card my-1" [id]="lowPriorityTsk.id"  cdkDrag>
+                                <div class="card-header font-weight-bolder text-primary pb-0">
+                                    <div class="d-inline">{{lowPriorityTsk.taskId}}</div>
+                                    <div class="float-right">
+                                        <button class="btn btn-link p-0 text-primary">
+                                            <i class="fa fa-edit" data-toggle="modal" data-target="#myModal" (click)="editTask = lowPriorityTsk"></i>
+                                        </button>
+                                        <button class="btn btn-link p-0 text-primary">
+                                            <i class="fa fa-times ml-2" (click)="delete(lowPriorityTsk.id)"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body py-1">
+                                    <h5 class="font-weight-bold mb-1">{{lowPriorityTsk.message}}</h5>
+                                    <div class="font-weight-bold">
+                                        <div class="d-inline">{{lowPriorityTsk.assigned_to}}</div>
+                                        <div class="float-right text-success">
+                                            {{lowPriorityTsk.due_date | date}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> {{lowPriorityTasks.length}} Tasks
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4>Task Details 
+                <span *ngIf="editTask.id">- {{editTask.taskId}}</span>
+            </h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <form class="mb-0">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Task</label>
+                    <input type="text" class="form-control" [(ngModel)]="editTask.message" name="task">
+                </div>
+                <div class="form-group">
+                    <label>Assign To</label>
+                    <select class="form-control" [(ngModel)]="editTask.assigned_to" name="assigned_to">
+                        <option *ngFor="let user of users" [value]="user.name" [id]="user.id">{{user.id}}-{{user.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Due Date</label>
+                    <input type="date" class="form-control" [(ngModel)]="editTask.due_date" name="due_date">
+                </div>
+                <div class="form-group">
+                    <label>Priority</label>
+                    <input type="number" min="1" max="3" class="form-control" [(ngModel)]="editTask.priority" name="priority">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button *ngIf="!editTask.id" type="submit" class="btn btn-success" (click)="addTask()">Save</button>
+                <button *ngIf="editTask.id" type="submit" class="btn btn-success" (click)="updateTask()">Update</button>
+            </div>
+        </form>
+  
+      </div>
+    </div>
+</div>
+<ng-template #placeholder>
+    <div class="container-fluid py-5">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-4" *ngFor="let i of [0,1,2]">
+                <div class="ph-item">
+                    <div>
+                      <div class="ph-row">
+                        <div class="ph-col-12"></div>
+                        <div class="ph-col-2"></div>
+                        <div class="ph-col-10 empty"></div>
+                        <div class="ph-col-8 big"></div>
+                        <div class="ph-col-4 big empty"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,40 @@
+<div class="main-content">
+  <div class="container-fluid" *ngIf="users.length; else placeholder">
+      <div class="row">
+          <div class="col-md-4" *ngFor="let user of users">
+              <div class="card card-profile">
+                  <div class="card-avatar">
+                      <img class="img" [attr.src]="user.picture" />
+                  </div>
+                  <div class="card-body">
+                      <h6 class="card-category text-gray">Member</h6>
+                      <h4 class="card-title">{{user.name}}</h4>
+                      <p class="card-description">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non ipsum bibendum, interdum massa lacinia, commodo felis. Sed ut maximus orci, quis posuere diam. 
+                      </p>
+                      <button class="btn btn-danger btn-round">Follow</button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<ng-template #placeholder>
+    <div class="container-fluid py-5">
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-3 col-lg-4" *ngFor="let i of [0,1,2]">
+                <div class="ph-item">
+                    <div>
+                      <div class="ph-row">
+                        <div class="ph-col-12"></div>
+                        <div class="ph-col-2"></div>
+                        <div class="ph-col-10 empty"></div>
+                        <div class="ph-col-8 big"></div>
+                        <div class="ph-col-4 big empty"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
