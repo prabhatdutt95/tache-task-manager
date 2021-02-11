@@ -42,7 +42,8 @@
                                           {{task.due_date | date}}
                                       </td>
                                       <td>
-                                          <span class="text-primary">{{task.priority}}</span>
+                                          <span class="{{task.priority === 'Low' ? 'text-info'
+                                        : task.priority === 'Medium' ? 'text-primary' : 'text-danger' }}">{{task.priority}}</span>
                                       </td>
                                   </tr>
                               </tbody>
