@@ -15,11 +15,14 @@ export class DashboardComponent implements OnInit {
   highPriorityTasks = [];
   filteredTask;
   tasksLoaded = false;
+  priorities = [
+    'Low', 'Medium', 'High'
+  ]
   editTask= {
     message: '',
     due_date: new Date(),
     assigned_to: null,
-    priority: 1,
+    priority: 'Low',
     id: null
   }
   users:[];
@@ -78,7 +81,7 @@ export class DashboardComponent implements OnInit {
       message: '',
       due_date: new Date(),
       assigned_to: null,
-      priority: 1,
+      priority: 'Low',
       id: null
     }
   }
@@ -92,8 +95,8 @@ export class DashboardComponent implements OnInit {
         event.previousIndex,
         event.currentIndex);
       this.editTask = this.allTasks.find(_ => _.id == event.item.element.nativeElement.id);
-      this.editTask.priority = this.lowPriorityTasks.includes(this.editTask) ? 3 : 
-                              this.mediumPriorityTasks.includes(this.editTask) ? 2 : 1;
+      this.editTask.priority = this.lowPriorityTasks.includes(this.editTask) ? 'Low' : 
+                              this.mediumPriorityTasks.includes(this.editTask) ? 'Medium' : 'High';
       this.updateTask();
     }
   }
@@ -102,9 +105,9 @@ export class DashboardComponent implements OnInit {
     this.mediumPriorityTasks = [];
     this.highPriorityTasks = [];
     this.allTasks.forEach((task, index) => {
-      if (task.priority === 3) {
+      if (task.priority === 'Low') {
         this.lowPriorityTasks.push(task);
-      } else if (task.priority === 2){
+      } else if (task.priority === 'Medium'){
         this.mediumPriorityTasks.push(task);
       } else {
         this.highPriorityTasks.push(task);
